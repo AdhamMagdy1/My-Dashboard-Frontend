@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600&display=swap');
+:root {
+  --primary-color: #3c3c3c;
+  --secondary-color: #e9edf0;
+  --thired-color: #ffffff;
+  --box-shadow: -12px -12px 20px 0px rgba(255, 255, 255, 0.8),
+    10px 10px 24px 0px rgba(166, 180, 200, 0.7);
+  --theme-btn-color: linear-gradient(54deg, #5affff 0%, #50b5ff 100%);
+  --theme-btn-shadow: 5px 4px 6px 0px #3f6fea inset;
+  --theme-circle-color: linear-gradient(221deg, #eef0f5 0%, #e6e9ef 100%);
+  --theme-cirlce-shadow: 10px 10px 18px 0px rgba(166, 180, 200, 0.65),
+    -10px -10px 18px 0px rgba(255, 255, 255, 0.8);
+  --input-box-shadow: -5px -5px 15px 0px rgba(255, 255, 255, 0.75) inset,
+    5px 5px 10px 0px rgba(166, 180, 200, 0.75) inset;
+}
+/* swal */
+div:where(.swal2-container) div:where(.swal2-popup) {
+  background: var(--secondary-color) !important;
+}
+div:where(.swal2-container) h2:where(.swal2-title) {
+  color: var(--primary-color) !important;
+}
+div:where(.swal2-container) .swal2-html-container {
+  color: var(--primary-color) !important;
+}
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+  color: var(--secondary-color) !important;
+  background-color: var(--primary-color) !important;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  /* border: solid 1px green; */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+*:focus {
+  outline: none !important;
+}
+/* Remove autofill styles for input fields */
+input:-internal-autofill-selected {
+  -webkit-appearance: initial !important;
+  -moz-appearance: initial !important;
+  appearance: initial !important;
+  background-image: none !important;
+  background-color: initial !important;
+  color: initial !important;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  position: relative;
+  scroll-behavior: smooth;
+  background-color: var(--secondary-color);
+  font-family: 'Poppins', sans-serif;
+  color: var(--primary-color);
+}
+/* Hide the vertical scrollbar */
+*::-webkit-scrollbar {
+  width: 3px; /* Set a width for the scrollbar to enable its styling */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Hide the scrollbar thumb */
+}
+
+/* Hide the horizontal scrollbar */
+body::-webkit-scrollbar:horizontal {
+  height: 8px; /* Set a height for the scrollbar to enable its styling */
+}
+
+body::-webkit-scrollbar-thumb:horizontal {
+  background-color: transparent; /* Hide the scrollbar thumb */
+}
+h1 {
+  font-size: 34px;
+  font-weight: 700;
+  overflow: hidden;
+}
+p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 30px; /* 187.5% */
+}
+/* Style for the theme switch button */
+.theme-switch {
+  position: absolute;
+  background-color: transparent;
+  width: 150px;
+  height: 80px;
+  flex-shrink: 0;
+  right: -1%;
+  top: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 999; /* Ensure the button is above other elements */
+}
+
+.circle {
+  position: absolute;
+  width: 36.034px;
+  left: 35px;
+  height: 36.034px;
+  flex-shrink: 0;
+  border-radius: 40px;
+  background: var(--theme-circle-color);
+  box-shadow: var(--theme-cirlce-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.icon {
+  font-size: 24px;
+  color: #333; /* Initial icon color */
+  display: block;
+}
+
+#icon-sun {
+  display: none; /* Hide sun icon initially */
+}
+
+.rectangle {
+  width: 56.303px;
+  height: 24.773px;
+  background: var(--theme-btn-color);
+  border-radius: 40px;
+  box-shadow: var(--theme-btn-shadow);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* my image */
+.img-holder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 0.5px solid var(--thired-color);
+  background: var(--secondary-color);
+  box-shadow: var(--box-shadow) inset;
+}
+.img-holder .img {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+.img-holder img {
+  width: 100%;
+  height: 100%;
+}
+/* login page */
+.login-content {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100dvh;
+}
+.login-content form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 30px;
+}
+.login-content form h1 {
+  color: var(--primary-color);
+}
+
+.login-content form input {
+  width: 328px;
+  height: 65px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 0.5px solid var(--thired-color);
+  background: var(--secondary-color);
+  box-shadow: var(--input-box-shadow);
+  padding-left: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+}
+.login-content form .loginBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 0.5px solid var(--thired-color);
+  background: var(--secondary-color);
+  box-shadow: var(--box-shadow);
+  color: var(--primary-color);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 187.5% */
+  cursor: pointer;
+}
+.login-content form .loginBtn:active {
+  box-shadow: none;
+}
