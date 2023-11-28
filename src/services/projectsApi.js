@@ -132,6 +132,7 @@ export const editProject = async (id, projectData) => {
   } else {
     // Status code is not OK
     const errorMessage = responseData.message || responseData.errors[0].msg;
+    console.log(errorMessage);
 
     Swal.fire({
       title: 'Error',
