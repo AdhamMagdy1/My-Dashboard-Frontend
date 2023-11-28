@@ -14,6 +14,8 @@ export const isAuthenticated = () => {
 //function to logout
 export const logOut = () => {
   window.localStorage.clear();
+  // Redirect to login
+  window.location.href = './login';
 };
 
 // Function to login

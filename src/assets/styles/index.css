@@ -176,7 +176,7 @@ p {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100dvh;
+  height: 100lvh;
 }
 .login-content form {
   display: flex;
@@ -224,4 +224,236 @@ p {
 }
 .login-content form .loginBtn:active {
   box-shadow: none;
+}
+
+/***dashboard ***/
+.dashboard {
+  display: flex;
+}
+/* asside */
+.closeMenu {
+  display: none;
+}
+.openMenu {
+  display: none;
+}
+.sideMenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 60px;
+  padding-top: 60px;
+  position: relative; /* Position the side menu */
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 270px;
+  border-radius: 0px 16px 16px 0px;
+  box-shadow: var(--box-shadow);
+  background-color: var(--secondary-color);
+}
+.sideMenu .viewProjectBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 0.5px solid var(--thired-color);
+  background: var(--secondary-color);
+  box-shadow: var(--box-shadow);
+  color: var(--primary-color);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 187.5% */
+  cursor: pointer;
+}
+.sideMenu .viewProjectBtn:active {
+  box-shadow: none;
+}
+.sideMenu .addProjectBtn {
+  display: flex;
+  width: 60px;
+  height: 60px;
+  padding: 16px;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 32px;
+  background: var(--primary-color);
+  outline: none;
+  cursor: pointer;
+}
+.sideMenu .addProjectBtn:hover {
+  transform: scale(0.98);
+}
+.sideMenu .addProjectBtn svg path {
+  fill: var(--secondary-color);
+}
+.logout {
+  position: absolute;
+  bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 150px;
+}
+.logout svg rect {
+  fill: var(--primary-color);
+}
+.logout button {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100px;
+  border: none;
+  background-color: transparent;
+  color: var(--primary-color);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 187.5% */
+  cursor: pointer;
+}
+.logout button svg path {
+  stroke: var(--primary-color);
+}
+/* main conetnet */
+.main-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px 0px 0px 20px;
+  width: 100%;
+}
+.main-content h1 {
+  position: absolute;
+  top: 15px;
+  left: 100px;
+}
+/* the project  */
+#section-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#section-3 .Sec3container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 450px;
+}
+
+#section-3 .card {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 310px;
+  height: 350px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 0.5px solid var(--thired-color);
+  background: var(--secondary-color);
+  box-shadow: var(--box-shadow);
+  transition: transform 0.5s, opacity 0.5s;
+  transition: all 0.5s ease-in-out;
+}
+.c0 {
+  z-index: 3;
+  transform: scale(1) translateY(0px);
+}
+.c1 {
+  z-index: 2;
+  transform: scale(0.9) translateY(50px);
+}
+.c2 {
+  z-index: 0;
+  transform: scale(0.8) translateY(100px);
+}
+#section-3 .card .cardImg {
+  height: 290px;
+  overflow: hidden;
+}
+#section-3 .card .cardImg img {
+  width: 100%;
+}
+#section-3 .project-description {
+  text-align: center;
+  width: 250px;
+  height: 100px;
+}
+#section-3 .buttons {
+  display: flex;
+  width: 350px;
+  height: 75px;
+  /* margin-top: 20px; */
+  align-items: center;
+  justify-content: space-around;
+  overflow: hidden;
+}
+#section-3 .buttons div {
+  display: flex;
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 32px;
+  background: var(--primary-color);
+}
+
+#section-3 .buttons div path {
+  fill: var(--thired-color);
+}
+
+/* for phones */
+@media only screen and (max-width: 600px) {
+  .closeMenu {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: transparent;
+    border: none;
+  }
+  .closeMenu svg path {
+    stroke: var(--primary-color);
+  }
+  .openMenu {
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+  }
+  .openMenu svg path {
+    stroke: var(--primary-color);
+  }
+  .sideMenu {
+    position: absolute;
+    z-index: 100;
+    transform: translateX(-1000px);
+    transition: all 0.8s ease-in-out;
+  }
+  .sideMenu.opend {
+    transform: translateX(0px);
+  }
+  .main-content h1 {
+    position: static;
+  }
 }
