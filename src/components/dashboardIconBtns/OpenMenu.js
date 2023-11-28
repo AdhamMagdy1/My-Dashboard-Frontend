@@ -16,9 +16,9 @@ function OpenMenu() {
         <path
           d="M4 5H20M4 12H20M4 19H20"
           stroke="black"
-          stroke-width="3"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </button>

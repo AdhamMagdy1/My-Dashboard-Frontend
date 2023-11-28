@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import '../assets/styles/index.css';
+import { getAllProjects } from '../services/projectsApi';
 
 function MyProjects() {
   useEffect(() => {
-    function viewProjects() {
+    async function viewProjects() {
+      // Sample data for dynamic cards (Replace this with your actual data)
+      const cardsData = await getAllProjects();
       const card0 = document.querySelector('.c0');
       const prevButton = document.getElementById('nextButton');
       const nextButton = document.getElementById('prevButton');
@@ -12,90 +15,15 @@ function MyProjects() {
         document.getElementById('projectDescription');
       let currentIndex = 0;
 
-      // Sample data for dynamic cards (Replace this with your actual data)
-      const cardsData = [
-        {
-          title: 'SpendWise',
-          image: 'assets/projects/spendwise.jpg',
-          description:
-            'Seamlessly track your expenses, set budget goals, and gain valuable insights into your spending habits. Visualize your financial landscape with intuitive charts, empowering you to make informed decisions.',
-          link: 'https://spendwise.adhammagdy.com',
-        },
-        {
-          title: 'Landing Page Project',
-          image: 'assets/projects/landing.png',
-          description:
-            'Manipulating the DOM landing page project, the goal was to change the page from static to dynamic by using javascript.added functionality to the page and changed the style and more.',
-          link: 'https://github.com/AdhamMagdy1/landing-page-project',
-        },
-        {
-          title: 'watchly',
-          image: 'assets/projects/watchly.png',
-          description:
-            'Watchly is an exquisite landing page designed and developed as a showcase for a fictional watch company. Using HTML, CSS, and JavaScript, I crafted a visually captivating user interface that exudes elegance and sophistication. Leveraging Figma for design, I meticulously curated the layout with smooth animations and interactive elements, providing users with a seamless and engaging browsing experience.',
-          link: 'https://watchly.vercel.app/',
-        },
-        {
-          title: 'Do Smart',
-          image: 'assets/projects/doo smart.png',
-          description:
-            '"Do Smart" is an intuitive web app for easy todo list management, featuring a visually stunning user interface designed using Figma. Powered by HTML, CSS, and JavaScript, the app offers a fast and responsive experience. Users can effortlessly create, edit, and manage their todo lists.',
-          link: 'https://do-smart.netlify.app/',
-        },
-        {
-          title: 'Weather-Journal-App',
-          image: 'assets/projects/weatherapp.jpg',
-          description:
-            'Weather-Journal-App is a web app developed in html css and js to track user feeling according to the weather temperature it use a eater api',
-          link: 'https://weather-journal-app-three.vercel.app/',
-        },
-        {
-          title: 'lydian Wallet',
-          image: 'assets/projects/lydian wallet.png',
-          description:
-            'A UI design for a Bank wallet that Application deigned with fimga',
-          link: 'https://www.behance.net/gallery/162253703/Ui-design-for-Bank-Wallet',
-        },
-        {
-          title: 'Imge resize api',
-          image: 'assets/projects/API.png',
-          description:
-            'Image Processing Api is an Api that resize image used in bulding this Api:NodejsTypeScript,npm,express,sharp,jasmine,prettier and Eslint',
-          link: 'https://github.com/AdhamMagdy1/img-processing-api',
-        },
-
-        {
-          title: 'product-client manager',
-          image: 'assets/projects/clientmanger.png',
-          description:
-            'product-client manager is a web application built with React.js and Tailwind CSS. It serves as a client and product manager for a business, allowing admins to manage clients and their products. The backend is implemented with Node.js and Express.js, using MongoDB as the database.',
-          link: 'https://github.com/AdhamMagdy1/product-client-manager',
-        },
-        {
-          title: 'EVOKchemicals',
-          image: 'assets/projects/evok.png',
-          description:
-            'landing page design and development for EVOKchemicals company.',
-          link: 'https://evokchemicals.com',
-        },
-        {
-          title: 'MRQr',
-          image: '/assets/projects/mrqr.png',
-          description:
-            'MRQr is a web-based QR code generator created with ReactJS, Tailwind CSS, and Motion Framer, delivering a fast and seamless experience for users. Its modern and user-friendly UI, designed in Figma.',
-          link: 'https://mrqr.vercel.app',
-        },
-      ];
-
       function updateCard() {
         const currentCardData = cardsData[currentIndex];
         card0.innerHTML = `
-        <div class="cardImg"><img src="${currentCardData.image}" alt="${currentCardData.title} loading="lazy"></div>
-        <h3>${currentCardData.title}</h3>
-      `;
+          <div class="cardImg"><img src="${currentCardData.imgLink}" alt="${currentCardData.title}" loading="lazy"></div>
+          <h3>${currentCardData.name}</h3>
+        `;
         projectDescriptionElement.innerHTML = `
-        <p>${currentCardData.description}</p>
-      `;
+          <p>${currentCardData.description}</p>
+        `;
         viewButton.setAttribute('href', currentCardData.link);
       }
 
@@ -112,13 +40,16 @@ function MyProjects() {
 
       // Initialize the card
       updateCard();
+
       // Open project link in a new tab
       viewButton.addEventListener('click', () => {
         window.open(viewButton.getAttribute('href'), '_blank');
       });
     }
+
     viewProjects();
-  }, []);
+  }, []); // Include dependencies if needed
+
   return (
     <div id="section-3">
       <div className="Sec3container">
