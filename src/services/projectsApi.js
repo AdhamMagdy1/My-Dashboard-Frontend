@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import { logOut } from './adminApi';
 
 // Define the API endpoint URL
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -26,6 +27,10 @@ export const getAllProjects = async () => {
         title: 'Error',
         icon: 'error',
         text: errorMsg,
+      }).then((isConfirmed) => {
+        logOut();
+        // Redirect to dashboard
+        window.location.href = './dashboard';
       });
     }
   } catch (error) {
@@ -129,7 +134,7 @@ export const editProject = async (id, projectData) => {
     });
   } else {
     // Status code is not OK
-    const errorMessage = responseData.errors|| responseData;
+    const errorMessage = responseData.errors || responseData;
     console.log(errorMessage);
 
     Swal.fire({

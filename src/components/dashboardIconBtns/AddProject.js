@@ -5,48 +5,55 @@ import Swal from 'sweetalert2';
 
 function AddProject() {
   useEffect(() => {
-    const createNewProjectBTN = document.querySelector('.addProjectBtn');
+    const createNewProjectBtn = document.querySelector('.addProjectBtn');
 
-    if (createNewProjectBTN) {
-      createNewProjectBTN.addEventListener('click', () => {
-        // Show SweetAlert2 modal with the edit form
-        Swal.fire({
+    if (createNewProjectBtn) {
+      createNewProjectBtn.addEventListener('click', async () => {
+        // Show SweetAlert2 modal with the add project form
+        let formValues;
+        const { value } = await Swal.fire({
           title: 'Add Project',
-          html: createForm(),
+          html:
+            `<input autocomplete="off" required type="text" id="swal-input1" class="swal2-input" placeholder="Name">` +
+            `<input autocomplete="off" required type="text" id="swal-input2" class="swal2-input" placeholder="Description">` +
+            `<input autocomplete="off" required type="text" id="swal-input3" class="swal2-input" placeholder="Image Link">` +
+            `<input autocomplete="off" required type="text" id="swal-input4" class="swal2-input" placeholder="Link">`,
           confirmButtonColor: '#8bf349',
           showCancelButton: true,
           cancelButtonColor: '#d33',
           confirmButtonText: 'Confirm',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Get the form values
-            const projcectData = {
-              name: document.getElementById('name').value,
-              description: document.getElementById('description').value,
-              link: document.getElementById('Link').value,
-              imgLink: document.getElementById('imgLink').value,
-            };
-            createNewProject(projcectData);
-          }
+          preConfirm: () => {
+            formValues = [
+              document.getElementById('swal-input1').value,
+              document.getElementById('swal-input2').value,
+              document.getElementById('swal-input3').value,
+              document.getElementById('swal-input4').value,
+            ];
+
+            if (!formValues.every((value) => value)) {
+              Swal.showValidationMessage(
+                'Please fill in all of the required fields.'
+              );
+              return false;
+            }
+
+            return formValues;
+          },
         });
+
+        if (value) {
+          // Call the createNewProject function with the new project data
+          const projectData = {
+            name: formValues[0],
+            description: formValues[1],
+            imgLink: formValues[2],
+            link: formValues[3],
+          };
+          createNewProject(projectData);
+        }
       });
     }
-  }, []); // Empty dependency array ensures this runs once after initial render
-
-  const createForm = () => {
-    return `
-      <form id="editForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name"  required><br>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea><br>
-        <label for="imgLink">Image Link:</label>
-        <input type="text" id="imgLink" name="imgLink" ><br>
-        <label for="Link">Link:</label>
-        <input type="text" id="Link" name="Link" required><br>
-      </form>
-    `;
-  };
+  }, []);
   return (
     <button className="addProjectBtn">
       <svg

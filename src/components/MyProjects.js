@@ -100,42 +100,50 @@ function MyProjects() {
     });
 
     // Edit button
-    editBtn.addEventListener('click', () => {
-      Swal.fire({
+    editBtn.addEventListener('click', async () => {
+      // Create the form dynamically
+      let formValues;
+      const { value } = await Swal.fire({
         title: 'Edit Project',
-        html: createForm(),
+        html:
+          `<input autocomplete="off" required type="text" id="swal-input1" class="swal2-input" placeholder="Name" value="${cardsData[currentIndex].name}">` +
+          `<input autocomplete="off" required type="text" id="swal-input2" class="swal2-input" placeholder="Description" value="${cardsData[currentIndex].description}">` +
+          `<input autocomplete="off" required type="text" id="swal-input3" class="swal2-input" placeholder="Image Link" value="${cardsData[currentIndex].imgLink}">` +
+          `<input autocomplete="off" required type="text" id="swal-input4" class="swal2-input" placeholder="Link" value="${cardsData[currentIndex].link}">`,
         confirmButtonColor: '#8bf349',
         showCancelButton: true,
         cancelButtonColor: '#d33',
         confirmButtonText: 'Confirm',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const editedFormData = {
-            name: document.getElementById('name').value,
-            description: document.getElementById('description').value,
-            link: document.getElementById('Link').value,
-            imgLink: document.getElementById('imgLink').value,
-          };
-          editProject(cardsData[currentIndex]._id, editedFormData);
-        }
-      });
-    });
+        preConfirm: () => {
+          formValues = [
+            document.getElementById('swal-input1').value,
+            document.getElementById('swal-input2').value,
+            document.getElementById('swal-input3').value,
+            document.getElementById('swal-input4').value,
+          ];
 
-    const createForm = () => {
-      const currentCardData = cardsData[currentIndex];
-      return `
-        <form id="editForm">
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" value="${currentCardData.name}" required><br>
-          <label for="description">Description:</label>
-          <textarea id="description" name="description" required>${currentCardData.description}</textarea><br>
-          <label for="imgLink">Image Link:</label>
-          <input type="text" id="imgLink" name="imgLink" value="${currentCardData.imgLink}"><br>
-          <label for="Link">Link:</label>
-          <input type="text" id="Link" name="Link" value="${currentCardData.link}" required><br>
-        </form>
-      `;
-    };
+          if (!formValues.every((value) => value)) {
+            Swal.showValidationMessage(
+              'Please fill in all of the required fields.'
+            );
+            return false;
+          }
+
+          return formValues;
+        },
+      });
+
+      if (value) {
+        // Call the editProject function with the edited data
+        const editedFormData = {
+          name: formValues[0],
+          description: formValues[1],
+          imgLink: formValues[2],
+          link: formValues[3],
+        };
+        editProject(cardsData[currentIndex]._id, editedFormData);
+      }
+    });
   }, [cardsData]);
 
   if (loading) {
