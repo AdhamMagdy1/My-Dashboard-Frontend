@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import '../assets/styles/index.css';
 import { getAllProjects } from '../services/projectsApi';
@@ -6,10 +6,19 @@ import { deleteProject } from '../services/projectsApi';
 import { editProject } from '../services/projectsApi';
 
 function MyProjects() {
+  const [cardsData, setCardsData] = useState([]);
+
   useEffect(() => {
     async function viewProjects() {
       // Sample data for dynamic cards (Replace this with your actual data)
-      const cardsData = await getAllProjects();
+      const fetchedCardsData = await getAllProjects();
+      setCardsData(fetchedCardsData);
+
+      if (fetchedCardsData.length === 0) {
+        // Handle the case where cardsData is empty (e.g., display a message)
+        console.log('No projects found.');
+        return;
+      }
       const card0 = document.querySelector('.c0');
       const prevButton = document.getElementById('nextButton');
       const nextButton = document.getElementById('prevButton');
@@ -98,7 +107,15 @@ function MyProjects() {
 
     viewProjects();
   }, []);
-
+  if (cardsData.length === 0) {
+    return (
+      <div id="section-3">
+        <div className="no-projects-found">
+          <p>No projects found.</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div id="section-3">
       <div className="Sec3container">
