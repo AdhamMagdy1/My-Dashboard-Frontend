@@ -91,20 +91,20 @@ export const createNewProject = async (projectData) => {
   }
 };
 
-// Function to edit a  project
+// Function to edit a project
 export const editProject = async (id, projectData) => {
   const endpoint = `/api/projects/${id}`;
   const url = baseUrl + endpoint;
-  const token = window.localStorage.getItem('token'); // Fix the typo
+  const token = window.localStorage.getItem('token');
 
   const data = {
     name: projectData.name,
     description: projectData.description,
     link: projectData.link,
-    date: projectData.date,
     imgLink: projectData.imgLink,
-    techUsed: projectData.techUsed,
   };
+  console.log(projectData);
+  console.log(JSON.stringify(data));
 
   const response = await fetch(url, {
     method: 'PUT',
@@ -131,7 +131,7 @@ export const editProject = async (id, projectData) => {
     });
   } else {
     // Status code is not OK
-    const errorMessage = responseData.message || responseData.errors[0].msg;
+    const errorMessage = responseData.errors[0].msg || responseData;
     console.log(errorMessage);
 
     Swal.fire({

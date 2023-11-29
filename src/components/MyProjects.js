@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import '../assets/styles/index.css';
 import { getAllProjects } from '../services/projectsApi';
@@ -6,13 +6,6 @@ import { deleteProject } from '../services/projectsApi';
 import { editProject } from '../services/projectsApi';
 
 function MyProjects() {
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    date: '',
-    techUsed: '',
-    imgLink: '',
-  });
   useEffect(() => {
     async function viewProjects() {
       // Sample data for dynamic cards (Replace this with your actual data)
@@ -65,15 +58,6 @@ function MyProjects() {
       });
       // Edit button
       editBtn.addEventListener('click', () => {
-        console.log(currentCardData.name);
-        setFormData({
-          name: currentCardData.name,
-          description: currentCardData.description,
-          date: currentCardData.date,
-          techUsed: currentCardData.techUsed,
-          imgLink: currentCardData.imgLink,
-        });
-
         // Show SweetAlert2 modal with the edit form
         Swal.fire({
           title: 'Edit Project',
@@ -84,30 +68,31 @@ function MyProjects() {
           confirmButtonText: 'Confirm',
         }).then((result) => {
           if (result.isConfirmed) {
-            // Call the editProject function with the form data and current card _id
-            editProject(cardsData[currentIndex]._id, formData);
+            // Get the form values
+            const editedFormData = {
+              name: document.getElementById('name').value,
+              description: document.getElementById('description').value,
+              link: document.getElementById('Link').value,
+              imgLink: document.getElementById('imgLink').value,
+            };
+            editProject(cardsData[currentIndex]._id, editedFormData);
           }
         });
       });
+
       const createForm = () => {
         return `
-          <form id="editForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="${currentCardData.name}" required><br>
-    
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required>${currentCardData.description}</textarea><br>
-    
-            <label for="date">Date:</label>
-            <input type="text" id="date" name="date" value="${currentCardData.date}" required><br>
-    
-            <label for="techUsed">Tech Used:</label>
-            <input type="text" id="techUsed" name="techUsed" value="${currentCardData.techUsed}" required><br>
-    
-            <label for="imgLink">Image Link:</label>
-            <input type="text" id="imgLink" name="imgLink" value="${currentCardData.imgLink}" required><br>
-          </form>
-        `;
+    <form id="editForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" value="${currentCardData.name}" required><br>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required>${currentCardData.description}</textarea><br>
+      <label for="imgLink">Image Link:</label>
+      <input type="text" id="imgLink" name="imgLink" value="${currentCardData.imgLink}"><br>
+      <label for="Link">Link:</label>
+      <input type="text" id="Link" name="Link" value="${currentCardData.link}" required><br>
+    </form>
+  `;
       };
     }
 
