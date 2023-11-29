@@ -1,112 +1,147 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import '../assets/styles/index.css';
-import { getAllProjects } from '../services/projectsApi';
-import { deleteProject } from '../services/projectsApi';
-import { editProject } from '../services/projectsApi';
+import {
+  getAllProjects,
+  deleteProject,
+  editProject,
+} from '../services/projectsApi';
 
 function MyProjects() {
   const [cardsData, setCardsData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function viewProjects() {
-      // Sample data for dynamic cards (Replace this with your actual data)
-      const fetchedCardsData = await getAllProjects();
-      setCardsData(fetchedCardsData);
-
-      if (fetchedCardsData.length === 0) {
-        // Handle the case where cardsData is empty (e.g., display a message)
-        console.log('No projects found.');
-        return;
+    async function fetchData() {
+      try {
+        const fetchedCardsData = await getAllProjects();
+        setCardsData(fetchedCardsData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
-      const card0 = document.querySelector('.c0');
-      const prevButton = document.getElementById('nextButton');
-      const nextButton = document.getElementById('prevButton');
-      const delBtn = document.getElementById('delButton');
-      const editBtn = document.getElementById('editButton');
-      const viewButton = document.getElementById('projectLinkButton');
-      const projectDescriptionElement =
-        document.getElementById('projectDescription');
-      let currentIndex = 0;
-      // Populate the form data with the current card's values
-      const currentCardData = cardsData[currentIndex];
-      function updateCard() {
-        const currentCardData = cardsData[currentIndex];
-        card0.innerHTML = `
-          <div class="cardImg"><img src="${currentCardData.imgLink}" alt="${currentCardData.title}" loading="lazy"></div>
-          <h3>${currentCardData.name}</h3>
-        `;
-        projectDescriptionElement.innerHTML = `
-          <p>${currentCardData.description}</p>
-        `;
-        viewButton.setAttribute('href', currentCardData.link);
-      }
-
-      // Update card and description when navigating through cards
-      prevButton.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + cardsData.length) % cardsData.length;
-        updateCard();
-      });
-
-      nextButton.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % cardsData.length;
-        updateCard();
-      });
-
-      // Initialize the card
-      updateCard();
-
-      // Open project link in a new tab
-      viewButton.addEventListener('click', () => {
-        window.open(viewButton.getAttribute('href'), '_blank');
-      });
-
-      //delelte button
-      delBtn.addEventListener('click', () => {
-        deleteProject(cardsData[currentIndex]._id);
-      });
-      // Edit button
-      editBtn.addEventListener('click', () => {
-        // Show SweetAlert2 modal with the edit form
-        Swal.fire({
-          title: 'Edit Project',
-          html: createForm(),
-          confirmButtonColor: '#8bf349',
-          showCancelButton: true,
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Confirm',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Get the form values
-            const editedFormData = {
-              name: document.getElementById('name').value,
-              description: document.getElementById('description').value,
-              link: document.getElementById('Link').value,
-              imgLink: document.getElementById('imgLink').value,
-            };
-            editProject(cardsData[currentIndex]._id, editedFormData);
-          }
-        });
-      });
-
-      const createForm = () => {
-        return `
-    <form id="editForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" value="${currentCardData.name}" required><br>
-      <label for="description">Description:</label>
-      <textarea id="description" name="description" required>${currentCardData.description}</textarea><br>
-      <label for="imgLink">Image Link:</label>
-      <input type="text" id="imgLink" name="imgLink" value="${currentCardData.imgLink}"><br>
-      <label for="Link">Link:</label>
-      <input type="text" id="Link" name="Link" value="${currentCardData.link}" required><br>
-    </form>
-  `;
-      };
     }
 
-    viewProjects();
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    const card0 = document.querySelector('.c0');
+    const prevButton = document.getElementById('nextButton');
+    const nextButton = document.getElementById('prevButton');
+    const delBtn = document.getElementById('delButton');
+    const editBtn = document.getElementById('editButton');
+    const viewButton = document.getElementById('projectLinkButton');
+    const projectDescriptionElement =
+      document.getElementById('projectDescription');
+
+    if (
+      !card0 ||
+      !prevButton ||
+      !nextButton ||
+      !delBtn ||
+      !editBtn ||
+      !viewButton ||
+      !projectDescriptionElement
+    ) {
+      return;
+    }
+
+    let currentIndex = 0;
+
+    function updateCard() {
+      const currentCardData = cardsData[currentIndex];
+      card0.innerHTML = `
+        <div class="cardImg"><img src="${currentCardData.imgLink}" alt="${currentCardData.title}" loading="lazy"></div>
+        <h3>${currentCardData.name}</h3>
+      `;
+      projectDescriptionElement.innerHTML = `
+        <p>${currentCardData.description}</p>
+      `;
+      // viewButton.setAttribute('href', currentCardData.link);
+    }
+
+    // Update card and description when navigating through cards
+    prevButton.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + cardsData.length) % cardsData.length;
+      updateCard();
+    });
+
+    nextButton.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % cardsData.length;
+      updateCard();
+    });
+
+    // Initialize the card
+    updateCard();
+
+    // Open project link in a new tab
+    viewButton.addEventListener('click', () => {
+      window.open(cardsData[currentIndex].link);
+    });
+
+    // Delete button
+    delBtn.addEventListener('click', () => {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Once deleted, you will not be able to recover this project!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#8bf349',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // User confirmed, delete the project
+          deleteProject(cardsData[currentIndex]._id);
+        }
+      });
+    });
+
+    // Edit button
+    editBtn.addEventListener('click', () => {
+      Swal.fire({
+        title: 'Edit Project',
+        html: createForm(),
+        confirmButtonColor: '#8bf349',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirm',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const editedFormData = {
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            link: document.getElementById('Link').value,
+            imgLink: document.getElementById('imgLink').value,
+          };
+          editProject(cardsData[currentIndex]._id, editedFormData);
+        }
+      });
+    });
+
+    const createForm = () => {
+      const currentCardData = cardsData[currentIndex];
+      return `
+        <form id="editForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" value="${currentCardData.name}" required><br>
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" required>${currentCardData.description}</textarea><br>
+          <label for="imgLink">Image Link:</label>
+          <input type="text" id="imgLink" name="imgLink" value="${currentCardData.imgLink}"><br>
+          <label for="Link">Link:</label>
+          <input type="text" id="Link" name="Link" value="${currentCardData.link}" required><br>
+        </form>
+      `;
+    };
+  }, [cardsData]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   if (cardsData.length === 0) {
     return (
       <div id="section-3">
@@ -116,6 +151,7 @@ function MyProjects() {
       </div>
     );
   }
+
   return (
     <div id="section-3">
       <div className="Sec3container">

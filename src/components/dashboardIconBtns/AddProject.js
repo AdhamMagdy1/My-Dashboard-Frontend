@@ -1,7 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../assets/styles/index.css';
+import { createNewProject } from '../../services/projectsApi';
+import Swal from 'sweetalert2';
 
 function AddProject() {
+  useEffect(() => {
+    const createNewProjectBTN = document.querySelector('.addProjectBtn');
+
+    if (createNewProjectBTN) {
+      createNewProjectBTN.addEventListener('click', () => {
+        // Show SweetAlert2 modal with the edit form
+        Swal.fire({
+          title: 'Add Project',
+          html: createForm(),
+          confirmButtonColor: '#8bf349',
+          showCancelButton: true,
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirm',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Get the form values
+            const projcectData = {
+              name: document.getElementById('name').value,
+              description: document.getElementById('description').value,
+              link: document.getElementById('Link').value,
+              imgLink: document.getElementById('imgLink').value,
+            };
+            createNewProject(projcectData);
+          }
+        });
+      });
+    }
+  }, []); // Empty dependency array ensures this runs once after initial render
+
+  const createForm = () => {
+    return `
+      <form id="editForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"  required><br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea><br>
+        <label for="imgLink">Image Link:</label>
+        <input type="text" id="imgLink" name="imgLink" ><br>
+        <label for="Link">Link:</label>
+        <input type="text" id="Link" name="Link" required><br>
+      </form>
+    `;
+  };
   return (
     <button className="addProjectBtn">
       <svg

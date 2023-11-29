@@ -43,15 +43,13 @@ export const getAllProjects = async () => {
 export const createNewProject = async (projectData) => {
   const endpoint = '/api/projects';
   const url = baseUrl + endpoint;
-  const token = window.localStorage.getItem('token'); // Fix the typo
+  const token = window.localStorage.getItem('token');
 
   const data = {
     name: projectData.name,
     description: projectData.description,
     link: projectData.link,
-    date: projectData.date,
     imgLink: projectData.imgLink,
-    techUsed: projectData.techUsed,
   };
 
   const response = await fetch(url, {
@@ -79,7 +77,7 @@ export const createNewProject = async (projectData) => {
     });
   } else {
     // Status code is not OK
-    const errorMessage = responseData.message || responseData.errors[0].msg;
+    const errorMessage = responseData.message || responseData.errors;
 
     Swal.fire({
       title: 'Error',
@@ -131,7 +129,7 @@ export const editProject = async (id, projectData) => {
     });
   } else {
     // Status code is not OK
-    const errorMessage = responseData.errors[0].msg || responseData;
+    const errorMessage = responseData.errors|| responseData;
     console.log(errorMessage);
 
     Swal.fire({
@@ -171,7 +169,7 @@ export const deleteProject = async (id) => {
     });
   } else {
     // Status code is not OK
-    const errorMessage = responseData.message || responseData.errors[0].msg;
+    const errorMessage = responseData.message || responseData.errors;
 
     Swal.fire({
       title: 'Error',
