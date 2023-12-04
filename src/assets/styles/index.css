@@ -15,7 +15,7 @@
 }
 /* swal */
 div:where(.swal2-container) .swal2-html-container {
-  overflow: hidden!important;
+  overflow: hidden !important;
 }
 div:where(.swal2-icon) .swal2-icon-content {
   overflow: hidden;
@@ -35,6 +35,19 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 }
 div:where(.swal2-icon) {
   overflow: hidden !important;
+}
+.swal2-html-container {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+.swal2-modal .swal2-styled:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 * {
   margin: 0;
